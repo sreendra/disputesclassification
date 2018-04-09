@@ -1,4 +1,4 @@
-package com.paypal.common.utils;
+package com.abc.common.utils;
 
 /**
  * Created by rachikkala on 2/6/18.

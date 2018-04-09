@@ -1,12 +1,12 @@
-package com.paypal.disputes.classification.data.models;
+package com.abc.disputes.classification.data.models;
 
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.dateFinder;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.locationFinder;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.moneyFinder;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.orgFinder;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.percentFinder;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.personFinder;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.timeFinder;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.dateFinder;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.locationFinder;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.moneyFinder;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.orgFinder;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.percentFinder;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.personFinder;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.timeFinder;
 
 import java.util.Arrays;
 import java.util.Set;

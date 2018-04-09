@@ -1,4 +1,4 @@
-package com.paypal.disputes.classification.ml.corenlp.spellchecker;
+package com.abc.disputes.classification.ml.corenlp.spellchecker;
 
 
 public class TernaryNode {

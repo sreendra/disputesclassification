@@ -1,8 +1,8 @@
-package com.paypal.disputes.classification.ml.corenlp.spellchecker;
+package com.abc.disputes.classification.ml.corenlp.spellchecker;
 
-import static com.paypal.common.utils.MLConstants.MAX_EDIT_DISTANCE;
-import static com.paypal.common.utils.MLConstants.MAX_SUGGESTIONS;
-import static com.paypal.common.utils.MLConstants.WORD_FREQ_MAP;
+import static com.abc.common.utils.MLConstants.MAX_EDIT_DISTANCE;
+import static com.abc.common.utils.MLConstants.MAX_SUGGESTIONS;
+import static com.abc.common.utils.MLConstants.WORD_FREQ_MAP;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 

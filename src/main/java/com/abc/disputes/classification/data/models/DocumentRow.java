@@ -1,4 +1,4 @@
-package com.paypal.disputes.classification.data.models;
+package com.abc.disputes.classification.data.models;
 
 import java.util.HashMap;
 import java.util.Map;

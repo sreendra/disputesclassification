@@ -1,4 +1,4 @@
-package com.paypal.disputes.classification.ml.corenlp;
+package com.abc.disputes.classification.ml.corenlp;
 
 import io.vavr.Tuple;
 import io.vavr.control.Try;
@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.paypal.common.utils.MLConstants.*;
+import static com.abc.common.utils.MLConstants.*;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 

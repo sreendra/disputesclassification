@@ -1,4 +1,4 @@
-package com.paypal.disputes.classification.ml.corenlp;
+package com.abc.disputes.classification.ml.corenlp;
 
 import opennlp.tools.lemmatizer.Lemmatizer;
 

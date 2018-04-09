@@ -1,11 +1,12 @@
-package com.paypal.disputes.classification.ml.models;
+package com.abc.disputes.classification.ml.models;
 
-import com.paypal.disputes.classification.data.models.Corpus;
-import com.paypal.disputes.classification.data.models.DocumentRow;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.abc.disputes.classification.data.models.Corpus;
+import com.abc.disputes.classification.data.models.DocumentRow;
 
 import java.util.List;
 import java.util.Map;

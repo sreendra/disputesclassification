@@ -1,13 +1,13 @@
-package com.paypal.disputes.classification.ml.corenlp;
+package com.abc.disputes.classification.ml.corenlp;
 
-import static com.paypal.common.utils.MLConstants.HYPHEN;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.applyContractionExpansions;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.isNumber;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.lemmatizer;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.sentenceDetector;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.stopWords;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.tagger;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.tokenDetector;
+import static com.abc.common.utils.MLConstants.HYPHEN;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.applyContractionExpansions;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.isNumber;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.lemmatizer;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.sentenceDetector;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.stopWords;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.tagger;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.tokenDetector;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -19,12 +19,12 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.paypal.disputes.classification.data.models.Corpus;
-import com.paypal.disputes.classification.data.models.DisputeDocument;
-import com.paypal.disputes.classification.data.models.DocumentRow;
-import com.paypal.disputes.classification.data.models.NamedEntityWrapper;
-import com.paypal.disputes.classification.data.models.TextAttribute;
-import com.paypal.disputes.classification.ml.corenlp.spellchecker.TernarySearchTree;
+import com.abc.disputes.classification.data.models.Corpus;
+import com.abc.disputes.classification.data.models.DisputeDocument;
+import com.abc.disputes.classification.data.models.DocumentRow;
+import com.abc.disputes.classification.data.models.NamedEntityWrapper;
+import com.abc.disputes.classification.data.models.TextAttribute;
+import com.abc.disputes.classification.ml.corenlp.spellchecker.TernarySearchTree;
 
 import io.vavr.Tuple;
 import io.vavr.Tuple3;
