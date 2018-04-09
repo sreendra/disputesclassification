@@ -36,6 +36,4 @@ public class MLConstants {
 
     public static final int MAX_EDIT_DISTANCE =3;
     public static final int MAX_SUGGESTIONS =10;
-
-
 }

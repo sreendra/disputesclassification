@@ -1,13 +1,18 @@
 package com.paypal.disputes.classification.data.models;
 
-import io.vavr.control.Try;
-import opennlp.tools.util.Span;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.dateFinder;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.locationFinder;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.moneyFinder;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.orgFinder;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.percentFinder;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.personFinder;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.timeFinder;
 
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.*;
+import opennlp.tools.util.Span;
 
 /**
  * Created by rachikkala on 4/7/18.

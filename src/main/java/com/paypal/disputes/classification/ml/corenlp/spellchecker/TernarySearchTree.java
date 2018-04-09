@@ -1,18 +1,20 @@
 package com.paypal.disputes.classification.ml.corenlp.spellchecker;
 
-import io.vavr.control.Try;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.paypal.common.utils.MLConstants.MAX_EDIT_DISTANCE;
+import static com.paypal.common.utils.MLConstants.MAX_SUGGESTIONS;
+import static com.paypal.common.utils.MLConstants.WORD_FREQ_MAP;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static com.paypal.common.utils.MLConstants.*;
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.vavr.control.Try;
 
 /**
  * Ternary Search Tree for Edit distance usage.
@@ -249,6 +251,7 @@ public class TernarySearchTree {
 
 	public static void main(String[] args) {
 		TernarySearchTree tree = TernarySearchTree.getInstance();
+		System.out.println("Tree is "+tree);
 	}
 
 }

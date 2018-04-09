@@ -5,8 +5,17 @@ import java.util.Map;
 
 public class DocumentRow {
 
+    public final int disputeClass;
     private String maxFreqTerm;
-    private Map<String,Integer> termFreqMap= new HashMap<>();
+    private Map<String,Integer> termFreqMap;
+
+    public DocumentRow(int disputeClass) {
+
+        this.disputeClass = disputeClass;
+        termFreqMap = new HashMap<>();
+    }
+
+
 
     public void addDocumentTerm(String term,Integer termFrequency) {
 
@@ -21,6 +30,10 @@ public class DocumentRow {
 
     public Map<String, Integer> getTermFreqMap() {
         return termFreqMap;
+    }
+
+    public String getMaxFreqTerm() {
+        return maxFreqTerm;
     }
 
     @Override

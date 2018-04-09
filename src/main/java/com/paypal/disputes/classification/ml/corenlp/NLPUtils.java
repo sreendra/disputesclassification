@@ -2,7 +2,6 @@ package com.paypal.disputes.classification.ml.corenlp;
 
 import io.vavr.Tuple;
 import io.vavr.control.Try;
-import opennlp.tools.lemmatizer.DictionaryLemmatizer;
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.namefind.TokenNameFinderModel;
 import opennlp.tools.postag.POSModel;
@@ -29,7 +28,7 @@ import static java.util.stream.Collectors.toSet;
 
 public class NLPUtils {
 
-    private Logger logger = LoggerFactory.getLogger(NLPUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(NLPUtils.class);
 
     public static final SentenceDetectorME sentenceDetector;
     public static final TokenizerME tokenDetector;
@@ -96,6 +95,8 @@ public class NLPUtils {
 
         for(String key : contractionsExpansionsMap.keySet())
             document = document.replaceAll(key,contractionsExpansionsMap.get(key));
+        
+        logger.info("Document is {}",document);
 
         return document.replaceAll(HYPHEN,SPACE);
 

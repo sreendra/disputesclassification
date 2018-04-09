@@ -1,24 +1,33 @@
 package com.paypal.disputes.classification.ml.corenlp;
 
-import com.paypal.disputes.classification.data.models.Corpus;
-import com.paypal.disputes.classification.data.models.DocumentRow;
-import com.paypal.disputes.classification.data.models.NamedEntityWrapper;
-import com.paypal.disputes.classification.data.models.TextAttribute;
-import com.paypal.disputes.classification.ml.corenlp.spellchecker.TernarySearchTree;
-import io.vavr.Tuple;
-import io.vavr.Tuple3;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.paypal.common.utils.MLConstants.HYPHEN;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.applyContractionExpansions;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.isNumber;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.lemmatizer;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.sentenceDetector;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.stopWords;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.tagger;
+import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.tokenDetector;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static com.paypal.common.utils.MLConstants.HYPHEN;
-import static com.paypal.disputes.classification.ml.corenlp.NLPUtils.*;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.paypal.disputes.classification.data.models.Corpus;
+import com.paypal.disputes.classification.data.models.DisputeDocument;
+import com.paypal.disputes.classification.data.models.DocumentRow;
+import com.paypal.disputes.classification.data.models.NamedEntityWrapper;
+import com.paypal.disputes.classification.data.models.TextAttribute;
+import com.paypal.disputes.classification.ml.corenlp.spellchecker.TernarySearchTree;
+
+import io.vavr.Tuple;
+import io.vavr.Tuple3;
 
 
 public class NLPResource {
@@ -26,17 +35,17 @@ public class NLPResource {
     private Logger logger = LoggerFactory.getLogger(NLPResource.class);
 
 
-    public Corpus preProcessText(List<String> documents, int numberOfGrams) {
+    public Corpus preProcessText(List<DisputeDocument> documents, int numberOfGrams) {
 
         Corpus corpus = Corpus.getInstance();
 
-        documents.stream().map(document -> preProcessText(document,numberOfGrams)).forEach(row -> corpus.addDocument(row));
+        documents.stream().map(disputeDocument -> preProcessText(disputeDocument.document,disputeDocument.disputeClass,numberOfGrams)).forEach(row -> corpus.addDocument(row));
 
         return corpus;
     }
 
 
-    public DocumentRow preProcessText(String document,int numberOfGrams) {
+    public DocumentRow preProcessText(String document,int disputeClass,int numberOfGrams) {
 
         logger.info("Input document is {}",document);
 
@@ -47,7 +56,7 @@ public class NLPResource {
                 map(tokens -> Tuple.of(tokens,tagger.tag(tokens), new NamedEntityWrapper(tokens))).
                 flatMap(tuple -> mapTokensToNGram(tuple,numberOfGrams).stream()).
                 collect(
-                        DocumentRow::new,
+                        () -> new DocumentRow(disputeClass),
                         (documentRow, term) -> documentRow.addDocumentTerm(term,1),
                         (documentRow1,documentRow2) -> documentRow2.getTermFreqMap().keySet().stream().forEach(term -> documentRow1.addDocumentTerm(term,documentRow2.getTermFreqMap().get(term)))
                 );
@@ -95,11 +104,19 @@ public class NLPResource {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
         String document ="I did not receive the Fire Wood Rack with my-shipment. I did receive the other 2 items. I have been working with canopy mart to get item delivered, but now they have became unresponsive. I would like refund of $49.99";
         NLPResource resource = new NLPResource();
-        System.out.println(resource.preProcessText(document,2));
+        System.out.println(resource.preProcessText(document,0,2));
+
+       /* System.out.println(Files.lines(getFilePath("data.txt")).
+                filter(line -> !line.isEmpty())
+                .map(line -> Integer.parseInt(line.split(" ")[1]))
+               // .filter(i -> i > 4266).collect(toList()));
+                //.filter(i -> i > 4266)
+                .reduce(Integer::max));*/
+
     }
 
 }
