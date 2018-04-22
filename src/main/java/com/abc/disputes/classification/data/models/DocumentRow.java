@@ -15,8 +15,6 @@ public class DocumentRow {
         termFreqMap = new HashMap<>();
     }
 
-
-
     public void addDocumentTerm(String term,Integer termFrequency) {
 
         Integer frequency = termFreqMap.get(term);

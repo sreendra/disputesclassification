@@ -1,33 +1,23 @@
 package com.abc.disputes.classification.ml.corenlp;
 
-import static com.abc.common.utils.MLConstants.HYPHEN;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.applyContractionExpansions;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.isNumber;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.lemmatizer;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.sentenceDetector;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.stopWords;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.tagger;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.tokenDetector;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
+import com.abc.disputes.classification.data.models.*;
+import com.abc.disputes.classification.ml.corenlp.spellchecker.TernarySearchTree;
 
+import io.vavr.Tuple;
+import io.vavr.Tuple3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.abc.disputes.classification.data.models.Corpus;
-import com.abc.disputes.classification.data.models.DisputeDocument;
-import com.abc.disputes.classification.data.models.DocumentRow;
-import com.abc.disputes.classification.data.models.NamedEntityWrapper;
-import com.abc.disputes.classification.data.models.TextAttribute;
-import com.abc.disputes.classification.ml.corenlp.spellchecker.TernarySearchTree;
-
-import io.vavr.Tuple;
-import io.vavr.Tuple3;
+import static com.abc.common.utils.MLConstants.HYPHEN;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 
 public class NLPResource {

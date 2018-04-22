@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 
 public class Corpus {
 
-    //https://en.wikipedia.org/wiki/Tf-idf
+    //https://en.wikipedia.org/wiki/Tf-idf and some places i saw the factor set to 0.4. We'll
+    //try both the options.
     private static final double TFIDF_SMOOTHING_FACTOR = 0.5;
 
     private Map<String,Integer> keyColIdMap;
@@ -66,6 +67,18 @@ public class Corpus {
 
               (TFIDF_SMOOTHING_FACTOR + (1-TFIDF_SMOOTHING_FACTOR) * (entry.getValue()/maxTermFreqInDoc) ) *
                     Math.log((double) totalDocumentsInCorpus / findNumOfDocsHavingTermTuple(entry.getKey()))
+        ));
+    }
+
+    public Map<Integer,Double> findIndexTfIdfMap(DocumentRow row) {
+
+        int maxTermFreqInDoc = row.getTermFreqMap().get(row.getMaxFreqTerm());
+        Map<String,Integer> rowKeyFreqMap = row.getTermFreqMap();
+
+        return rowKeyFreqMap.entrySet().stream().filter(entry -> keyColIdMap.containsKey(entry.getKey())).collect(Collectors.toMap(entry -> keyColIdMap.get(entry.getKey()), entry ->
+
+                (TFIDF_SMOOTHING_FACTOR + (1-TFIDF_SMOOTHING_FACTOR) * (entry.getValue()/maxTermFreqInDoc) ) *
+                        Math.log((double) totalDocumentsInCorpus / findNumOfDocsHavingTermTuple(entry.getKey()))
         ));
     }
 

@@ -36,4 +36,10 @@ public class MLConstants {
 
     public static final int MAX_EDIT_DISTANCE =3;
     public static final int MAX_SUGGESTIONS =10;
+    public static final int MIN_SVM_SEED_SET =5;
+
+    public static final double TAU =1E-12;
+    public static final double TOLERANCE =1E-3;
+
+
 }

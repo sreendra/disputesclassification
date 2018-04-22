@@ -1,18 +1,13 @@
 package com.abc.disputes.classification.data.models;
 
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.dateFinder;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.locationFinder;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.moneyFinder;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.orgFinder;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.percentFinder;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.personFinder;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.timeFinder;
+import io.vavr.control.Try;
+import opennlp.tools.util.Span;
+
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.*;
 
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import opennlp.tools.util.Span;
 
 /**
  * Created by rachikkala on 4/7/18.

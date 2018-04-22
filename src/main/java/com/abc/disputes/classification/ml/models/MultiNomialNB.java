@@ -14,6 +14,15 @@ import java.util.stream.IntStream;
 
 import static java.lang.Math.log;
 
+/**
+ * Some fundamental terminology used in Naive Bayes which is <b>the best classifier</b> in the world
+ * provided you <b>know</b> the class conditional distribution.
+ *<br/>
+ * Posterior probability = P(Y= yi/X=xi)
+ * Marginal = P(X = xi)
+ * Class Conditional = P(X = xi/Y=yi)
+ * Prior = P(Y =yi)
+ */
 public class MultiNomialNB {
 
     private Logger logger = LoggerFactory.getLogger(MultiNomialNB.class);
@@ -23,7 +32,7 @@ public class MultiNomialNB {
     private Corpus corpus;
     private double[] priorProbabilities;
     private int[] classesTotalTerms;
-    private double[][] conditionalProbabilities;
+    private double[][] classConditionalProbabilities;
 
     private static MultiNomialNB instance;
 
@@ -64,7 +73,7 @@ public class MultiNomialNB {
 
         Map<Integer,List<DocumentRow>> disputeClassDocsMap = corpus.getDisputeClassDocsMap();
 
-        conditionalProbabilities = new double[disputeClassDocsMap.size()][corpus.getNumberOfTerms()];
+        classConditionalProbabilities = new double[disputeClassDocsMap.size()][corpus.getNumberOfTerms()];
         classesTotalTerms = new int[disputeClassDocsMap.size()];
 
         disputeClassDocsMap.keySet().stream().forEach(disputeClass ->
@@ -73,7 +82,7 @@ public class MultiNomialNB {
 
                         documentRow.getTermFreqMap().entrySet().stream().forEach(entry ->
                                 {
-                                    conditionalProbabilities[disputeClass][corpus.getKeyColIdMap().get(entry.getKey())] += entry.getValue();
+                                    classConditionalProbabilities[disputeClass][corpus.getKeyColIdMap().get(entry.getKey())] += entry.getValue();
                                     classesTotalTerms[disputeClass] += entry.getValue();
                                 }
                         )
@@ -84,7 +93,7 @@ public class MultiNomialNB {
         IntStream.range(0,classesTotalTerms.length).boxed().forEach(
                 disputeClass ->
                     IntStream.range(0,corpus.getNumberOfTerms()).boxed().forEach(colIndex ->
-                        conditionalProbabilities[disputeClass][colIndex] = (conditionalProbabilities[disputeClass][colIndex] + LAPLACE_SMOOTHING)/(classesTotalTerms[disputeClass] +corpus.getNumberOfTerms())
+                        classConditionalProbabilities[disputeClass][colIndex] = (classConditionalProbabilities[disputeClass][colIndex] + LAPLACE_SMOOTHING)/(classesTotalTerms[disputeClass] +corpus.getNumberOfTerms())
                     )
         );
 
@@ -94,7 +103,7 @@ public class MultiNomialNB {
 
         Tuple2<Integer,Double> predictedClassProbTuple = IntStream.range(0,classesTotalTerms.length).boxed().map(
                 disputeClass ->
-                        Tuple.of(disputeClass,log(priorProbabilities[disputeClass]) +corpus.findTfIdfMap(testDocument).entrySet().stream().map(entry -> entry.getValue() * log(conditionalProbabilities[disputeClass][corpus.getKeyColIdMap().get(entry.getKey())])).reduce(0.0,Double::sum))
+                        Tuple.of(disputeClass,log(priorProbabilities[disputeClass]) +corpus.findTfIdfMap(testDocument).entrySet().stream().map(entry -> entry.getValue() * log(classConditionalProbabilities[disputeClass][corpus.getKeyColIdMap().get(entry.getKey())])).reduce(0.0,Double::sum))
         ).reduce(Tuple.of(-1,Double.NEGATIVE_INFINITY),(tuple1,tuple2) -> tuple1._2 > tuple2._2 ? tuple1 :tuple2);
 
         logger.info("Predicted class and probability tuple is {}",predictedClassProbTuple);
