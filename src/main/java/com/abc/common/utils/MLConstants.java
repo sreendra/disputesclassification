@@ -34,12 +34,13 @@ public class MLConstants {
     public static final String STOPWORDS_FILE ="stop-words_en.txt";
     public static final String WORD_FREQ_MAP ="word_freq_en.txt";
 
-    public static final int MAX_EDIT_DISTANCE =3;
+    public static final int MAX_EDIT_DISTANCE =2;
     public static final int MAX_SUGGESTIONS =10;
     public static final int MIN_SVM_SEED_SET =5;
 
     public static final double TAU =1E-12;
     public static final double TOLERANCE =1E-3;
 
-
+    public static final String LTD_PLACEHOLDER ="ltd.";
+    public static final String LTD ="ltd";
 }

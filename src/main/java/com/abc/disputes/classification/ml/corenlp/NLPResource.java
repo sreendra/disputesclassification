@@ -1,23 +1,33 @@
 package com.abc.disputes.classification.ml.corenlp;
 
-import com.abc.disputes.classification.data.models.*;
-import com.abc.disputes.classification.ml.corenlp.spellchecker.TernarySearchTree;
+import static com.abc.common.utils.MLConstants.HYPHEN;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.applyContractionExpansions;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.isNumber;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.lemmatizer;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.sentenceDetector;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.stopWords;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.tagger;
+import static com.abc.disputes.classification.ml.corenlp.NLPUtils.tokenDetector;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
-import io.vavr.Tuple;
-import io.vavr.Tuple3;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static com.abc.common.utils.MLConstants.HYPHEN;
-import static com.abc.disputes.classification.ml.corenlp.NLPUtils.*;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.abc.disputes.classification.data.models.Corpus;
+import com.abc.disputes.classification.data.models.DisputeDocument;
+import com.abc.disputes.classification.data.models.DocumentRow;
+import com.abc.disputes.classification.data.models.NamedEntityWrapper;
+import com.abc.disputes.classification.data.models.TextAttribute;
+import com.abc.disputes.classification.ml.corenlp.spellchecker.TernarySearchTree;
+
+import io.vavr.Tuple;
+import io.vavr.Tuple3;
 
 
 public class NLPResource {
@@ -37,7 +47,7 @@ public class NLPResource {
 
     public DocumentRow preProcessText(String document,int disputeClass,int numberOfGrams) {
 
-        logger.info("Input document is {}",document);
+        logger.info("Input document is - {}",document);
 
         document = applyContractionExpansions(document.toLowerCase());
 
@@ -72,7 +82,9 @@ public class NLPResource {
                             lemmatizer.lemmatize(searchTree.containsWord(token) ? token : searchTree.getSuggestions(token).get(0),pos);
 
                     return new TextAttribute(token, pos, lemma, isNamedEntity, index);
-                }).collect(toList());
+                }).
+                filter(textAttribute -> !stopWords.contains(textAttribute.lemma)).
+                collect(toList());
 
         return IntStream.range((numberOfGrams-1),filteredAttributes.size()).boxed().
                 map(index -> Arrays.stream(formNArrayAttributes(filteredAttributes,index,numberOfGrams)).collect(joining(HYPHEN))).
@@ -96,9 +108,9 @@ public class NLPResource {
 
     public static void main(String[] args) throws Exception{
 
-        String document ="I did not receive the Fire Wood Rack with my-shipment. I did receive the other 2 items. I have been working with canopy mart to get item delivered, but now they have became unresponsive. I would like refund of $49.99";
+        String document ="refun";
         NLPResource resource = new NLPResource();
-        System.out.println(resource.preProcessText(document,0,2));
+        System.out.println(resource.preProcessText(document,0,1));
 
        /* System.out.println(Files.lines(getFilePath("data.txt")).
                 filter(line -> !line.isEmpty())

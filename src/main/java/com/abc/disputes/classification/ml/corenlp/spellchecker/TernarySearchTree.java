@@ -1,18 +1,20 @@
 package com.abc.disputes.classification.ml.corenlp.spellchecker;
 
-import io.vavr.control.Try;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.abc.common.utils.MLConstants.MAX_EDIT_DISTANCE;
+import static com.abc.common.utils.MLConstants.MAX_SUGGESTIONS;
+import static com.abc.common.utils.MLConstants.WORD_FREQ_MAP;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static com.abc.common.utils.MLConstants.*;
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.vavr.control.Try;
 
 /**
  * Ternary Search Tree for Edit distance usage.
@@ -37,7 +39,7 @@ public class TernarySearchTree {
 		long totalRows =Try.of(() -> Files.lines(Paths.get(this.getClass().getClassLoader().getResource(WORD_FREQ_MAP).getPath())).
 				filter(keyValuePair -> !keyValuePair.isEmpty()).
 				map(line -> {
-					insert(line.split("\t")[0].trim(),line.split("\t")[1].trim());
+					insert(line.split("=")[0].trim(),line.split("=")[1].trim());
 					return 1;
 				}).count()).get();
 
@@ -168,7 +170,7 @@ public class TernarySearchTree {
 
 		traverseTree(root,inCorrectWord,"",MAX_EDIT_DISTANCE,suggestedWords);
 
-		logger.info("Incorrect word is {}, suggested words are {} and size is {}", inCorrectWord,suggestedWords,suggestedWords.size());
+		//logger.info("Incorrect word is {}, suggested words are {} and size is {}", inCorrectWord,suggestedWords,suggestedWords.size());
 
 		List<String> minEditDistanceWords = suggestedWords.stream().
 				sorted(comparing(NodeWrapper::getEditDistance).thenComparing(comparing(NodeWrapper::getFrequency).reversed())).
@@ -178,6 +180,8 @@ public class TernarySearchTree {
 
 		if(minEditDistanceWords.isEmpty())
 			minEditDistanceWords.add(inCorrectWord);
+
+		logger.info("Incorrect word is {} and min edit distance words are {}",inCorrectWord,minEditDistanceWords);
 
 		return minEditDistanceWords;
 	}
@@ -248,7 +252,7 @@ public class TernarySearchTree {
 	}
 
 	public static void main(String[] args) {
-		TernarySearchTree tree = TernarySearchTree.getInstance();
+		//TernarySearchTree tree = TernarySearchTree.getInstance();
 	}
 
 }
