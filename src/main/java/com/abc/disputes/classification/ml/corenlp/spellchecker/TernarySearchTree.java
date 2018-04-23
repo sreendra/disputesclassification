@@ -97,9 +97,13 @@ public class TernarySearchTree {
 		if(root.isWordChar() && charIndex == searchWord.length() - 1 && searchWord.charAt(charIndex) == root.data)
 			return root;
 
+		//Word is not found (incomplete word.)
+		if(charIndex == searchWord.length())
+			return null;
+
 		return searchWord.charAt(charIndex) < root.data ? searchWord(root.getLeft(),searchWord,charIndex) :
-				searchWord.charAt(charIndex) > root.data ? searchWord(root.getRight(),searchWord,charIndex) :
-						searchWord(root.getEqual(),searchWord,charIndex+1);
+			searchWord.charAt(charIndex) > root.data ? searchWord(root.getRight(),searchWord,charIndex) :
+				searchWord(root.getEqual(),searchWord,charIndex+1);
 
 	}
 
@@ -196,7 +200,7 @@ public class TernarySearchTree {
 		if (
 				(suggestedWordPrefix.length() < inCorrectWord.length() &&
 						getLevenshteinDistance( inCorrectWord.substring(0, suggestedWordPrefix.length() + 1),suggestedWordPrefix) > maxEditDistance
-				) ||
+						) ||
 				suggestedWordPrefix.length() > inCorrectWord.length() + maxEditDistance  )
 
 			return;
