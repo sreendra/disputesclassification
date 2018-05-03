@@ -66,6 +66,22 @@
             <artifactId>protonpack</artifactId>
             <version>1.14</version>
         </dependency>
+        
+        <dependency>
+			<groupId>io.javaslang</groupId>
+			<artifactId>javaslang</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0-m02</version>
+		</dependency>
 
 	</dependencies>
 </project>
